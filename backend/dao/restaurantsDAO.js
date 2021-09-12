@@ -65,9 +65,10 @@ export default class RestaurantsDAO {
         return { restaurantsList: [], totalNumRestaurants: 0 };
       }
     }
+    // get reviews from one collection and put it into the res.
     static async getRestaurantByID(id) {
       try {
-        // create pipeline that  match collections together
+        // create pipeline that match diff. collections together
         const pipeline = [
           {
             $match: {
@@ -82,6 +83,7 @@ export default class RestaurantsDAO {
               },
               pipeline: [
                 {
+                  //find all the reviews that match that res. ID
                   $match: {
                     $expr: {
                       $eq: ["$restaurant_id", "$$id"],

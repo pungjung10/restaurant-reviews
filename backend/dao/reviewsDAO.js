@@ -4,6 +4,7 @@ const ObjectId = mongodb.ObjectId;
 let reviews;
 
 export default class ReviewsDAO {
+  // automically be created(if it already exist)
   static async injectDB(conn) {
     if (reviews) {
       return;
@@ -22,7 +23,7 @@ export default class ReviewsDAO {
         user_id: user._id,
         date: date,
         text: review,
-        restaurant_id: ObjectId(restaurantId),
+        restaurant_id: ObjectId(restaurantId),    //create an object id
       };
 
       return await reviews.insertOne(reviewDoc);
@@ -35,6 +36,7 @@ export default class ReviewsDAO {
   static async updateReview(reviewId, userId, text, date) {
     try {
       const updateResponse = await reviews.updateOne(
+        // update: right reviewID and right userId(same user)
         { user_id: userId, _id: ObjectId(reviewId) },
         { $set: { text: text, date: date } }
       );
